@@ -55,8 +55,6 @@ public partial class InnerVerifier :
             settings.namedDateTimeOffsets
         );
 
-        IoHelpers.CreateDirectory(directory);
-
         if (settings.useUniqueDirectory)
         {
             InitForDirectoryConvention(namer, typeAndMethod, parameterText);
@@ -90,7 +88,6 @@ public partial class InnerVerifier :
             var directoryPrefix = Path.Combine(directory, verifiedPrefix);
             var verifiedDirectory = $"{directoryPrefix}.verified";
             var receivedDirectory = $"{directoryPrefix}.received";
-            IoHelpers.CreateDirectory(verifiedDirectory);
             IoHelpers.RenameFiles(
                 verifiedDirectory,
                 "nofilename.*",
@@ -120,7 +117,6 @@ public partial class InnerVerifier :
         else
         {
             var subDirectory = Path.Combine(directory, verifiedPrefix);
-            IoHelpers.CreateDirectory(subDirectory);
             IoHelpers.RenameFiles(
                 subDirectory,
                 "nofilename.verified.*",
@@ -240,9 +236,7 @@ public partial class InnerVerifier :
             return sourceFileDirectory;
         }
 
-        var directory = Path.Combine(sourceFileDirectory, settingsOrInfoDirectory);
-        IoHelpers.CreateDirectory(directory);
-        return directory;
+        return Path.Combine(sourceFileDirectory, settingsOrInfoDirectory);
     }
 
     public Task<VerifyResult> Verify(object? target, IEnumerable<Target> rawTargets) =>
