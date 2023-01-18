@@ -85,7 +85,7 @@ var settings = new JsonSerializerSettings
     DefaultValueHandling = DefaultValueHandling.Ignore,
 };
 ```
-<sup><a href='/src/Verify/Serialization/SerializationSettings.cs#L85-L94' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultserialization' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Verify/Serialization/SerializationSettings.cs#L83-L92' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultserialization' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -116,8 +116,8 @@ public Task AddExtraSettings()
     var settings = new VerifySettings();
     settings
         .AddExtraSettings(
-            _ => _.Error += (sender, args)
-                => Console.WriteLine(args.ErrorContext.Member));
+            _ => _.Error = (currentObject, originalObject, location, exception, handled) =>
+                Console.WriteLine(location.Member));
     return Verify("Value", settings);
 }
 ```
@@ -134,8 +134,8 @@ public Task AddExtraSettings()
 public Task AddExtraSettingsFluent() =>
     Verify("Value")
         .AddExtraSettings(
-            _ => _.Error += (sender, args)
-                => Console.WriteLine(args.ErrorContext.Member));
+            _ => _.Error = (currentObject, originalObject, location, exception, handled) =>
+                Console.WriteLine(location.Member));
 ```
 <sup><a href='/src/Verify.Tests/Serialization/SerializationTests.cs#L335-L344' title='Snippet source file'>snippet source</a> | <a href='#snippet-addextrasettingsfluent' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
